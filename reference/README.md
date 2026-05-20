@@ -1,17 +1,63 @@
 # Reference Implementation
 
-Референсная реализация стандарта МАИФ.
+Референсная реализация открытого стандарта МАИФ на языке Go.
 
-**Статус:** Публикация референсной реализации производится отдельным этапом.
+**Свидетельство о регистрации:** Роспатент № 2026611550 от 20 января 2026 года.
+**Правообладатель:** ООО «СИРИУС ПРО».
+**Лицензия:** Apache License 2.0.
 
-Реализация выполнена на языке Go 1.21+ и зарегистрирована в Роспатенте (свидетельство № 2026611550 от 20 января 2026 года).
+## Назначение
 
-Состав реализации:
-- Core abstractions (agent lifecycle, messaging, state management)
-- A2A protocol implementation (envelope, agent card, coordination)
-- Event streaming (Kafka integration, stream processing)
-- Orchestration (state graphs, human-in-the-loop)
-- Infrastructure (circuit breaker, distributed tracing)
-- Complete usage example
+Материалы настоящего раздела представляют собой выборку исходного кода, депонированную в Роспатент в составе свидетельства о регистрации программы для ЭВМ. Реализация служит технической иллюстрацией соответствия требованиям стандарта, определённым в [`/spec`](../spec).
 
-Подробности — в спецификации [`/spec`](../spec).
+Реализация распространяется на условиях Apache License 2.0 и может использоваться в качестве отправной точки для разработки совместимых решений.
+
+## Структура
+
+```
+reference/
+├── agent/
+│   ├── agent.go                # Интерфейс Agent
+│   ├── base_agent.go           # Базовая реализация агента
+│   └── agentcard.go            # AgentCard (раздел 02 спецификации)
+├── messaging/
+│   ├── message_bus.go          # Абстракция шины сообщений
+│   ├── a2a_envelope.go         # A2A Envelope (разделы 01, 02, 05)
+│   └── kafka_bus.go            # Реализация на Apache Kafka
+├── state/
+│   └── state_manager.go        # Управление состоянием агентов
+├── coordination/
+│   └── coordination_mechanism.go  # Механизмы координации
+├── streaming/
+│   └── stream.go               # Stream processing
+├── orchestration/
+│   ├── state_graph.go          # Граф состояний оркестрации
+│   └── human_in_loop.go        # Human-in-the-loop (раздел 04)
+├── resilience/
+│   └── circuit_breaker.go      # Circuit breaker
+├── otel/
+│   └── tracer.go               # OpenTelemetry tracing (раздел 05)
+└── example/
+    └── complete_example.go     # Сквозной пример использования
+```
+
+## Соответствие требованиям стандарта
+
+| Требование стандарта | Файлы реализации |
+|---|---|
+| 01. Event-driven архитектура | `messaging/`, `streaming/` |
+| 02. Типизированные контракты | `messaging/a2a_envelope.go`, `agent/agentcard.go` |
+| 03. Малая связанность | `agent/`, `messaging/` |
+| 04. Human-in-the-loop | `orchestration/human_in_loop.go` |
+| 05. Сквозной аудит | `otel/tracer.go`, `messaging/a2a_envelope.go` |
+| 06. Суверенное исполнение | `state/`, инфраструктурные модули |
+
+## Требования к среде исполнения
+
+- Go 1.21+
+- Apache Kafka 3.x
+- PostgreSQL 14+, Redis 7+ (опционально Neo4j, MongoDB)
+
+## Замечание о составе
+
+Опубликованный код соответствует депонированной выборке. Сборка как единого исполняемого артефакта требует дополнения зависимостями и интеграционными модулями, не входящими в депонированный материал. Развитие реализации производится в порядке, описанном в [`CONTRIBUTING.md`](../CONTRIBUTING.md).
