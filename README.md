@@ -19,7 +19,7 @@
 ## Структура репозитория
 
 - [`/spec`](./spec) — спецификация стандарта.
-- [`/reference`](./reference) — референсная реализация на Go (публикуется отдельным этапом).
+- [`/reference`](./reference) — референсная реализация на Go: пакеты agent, coordination, messaging, orchestration, state, streaming, resilience, otel + сквозной пример (example).
 - [`NOTICE`](./NOTICE) — атрибуция и сведения о регистрации.
 - [`CONTRIBUTING.md`](./CONTRIBUTING.md) — порядок участия в развитии стандарта.
 - [`LICENSE`](./LICENSE) — Apache License 2.0.
